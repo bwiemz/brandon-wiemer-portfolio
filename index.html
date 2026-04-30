@@ -16,6 +16,7 @@
 
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="#work">Work</a>
+        <a href="#lab">Lab</a>
         <a href="#projects">Projects</a>
         <a href="#contact">Contact</a>
       </nav>
@@ -83,6 +84,46 @@
             <h3>Systems and simulation</h3>
             <p>Building C++ and Python projects across engines, CAD, tracking, and research-oriented tools.</p>
           </article>
+        </div>
+      </section>
+
+      <section class="section lab-section" id="lab" aria-labelledby="lab-title">
+        <div class="section-heading lab-heading">
+          <div>
+            <p class="section-label">Interactive Lab</p>
+            <h2 id="lab-title">Try a small program</h2>
+          </div>
+          <p class="lab-intro">
+            A browser-based code pad with JavaScript execution and a tiny NSL-inspired mode for basic variables, math, and print output.
+          </p>
+        </div>
+
+        <div class="code-lab" aria-label="Interactive code playground">
+          <div class="lab-toolbar">
+            <div class="language-tabs" role="tablist" aria-label="Choose code language">
+              <button class="language-tab active" type="button" data-language="javascript">JavaScript</button>
+              <button class="language-tab" type="button" data-language="nsl">NSL Lite</button>
+            </div>
+            <div class="lab-actions">
+              <button class="icon-button" type="button" id="reset-code" aria-label="Reset code">Reset</button>
+              <button class="icon-button run" type="button" id="run-code" aria-label="Run code">Run</button>
+            </div>
+          </div>
+
+          <div class="lab-workspace">
+            <label class="editor-pane">
+              <span>main.<span id="file-extension">js</span></span>
+              <textarea id="code-editor" spellcheck="false" aria-label="Code editor"></textarea>
+            </label>
+
+            <div class="output-pane" aria-live="polite">
+              <div class="output-header">
+                <span>Console</span>
+                <span id="runtime-label">JavaScript worker</span>
+              </div>
+              <pre id="code-output">Press Run to execute the sample.</pre>
+            </div>
+          </div>
         </div>
       </section>
 
