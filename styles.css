@@ -442,7 +442,7 @@ h3 {
   border-radius: var(--radius);
   display: grid;
   gap: 6px;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-bottom: 28px;
   padding: 6px;
 }
@@ -718,6 +718,80 @@ h3 {
   grid-row: 2;
 }
 
+.tour-panel {
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.tour-controls {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.tour-choice {
+  background: rgba(15, 118, 110, 0.08);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 6px;
+  color: var(--accent-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 900;
+  min-height: 42px;
+  padding: 0 10px;
+}
+
+.tour-choice.active,
+.tour-choice:hover,
+.tour-choice:focus-visible {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+  outline: none;
+}
+
+.tour-stage {
+  background: #d8eec7;
+  border: 10px solid #18211d;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+}
+
+#tour-canvas {
+  aspect-ratio: 16 / 9;
+  display: block;
+  width: 100%;
+}
+
+.tour-caption {
+  background: rgba(17, 23, 19, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  bottom: 16px;
+  color: var(--surface);
+  left: 16px;
+  padding: 12px 14px;
+  position: absolute;
+}
+
+.tour-caption p {
+  color: var(--surface);
+  font-weight: 900;
+  margin: 0 0 2px;
+}
+
+.tour-caption span {
+  color: rgba(255, 250, 240, 0.76);
+  font-size: 0.86rem;
+}
+
 .contact-section {
   align-items: center;
   background: var(--accent-soft);
@@ -765,6 +839,7 @@ h3 {
   .lab-view-heading,
   .lab-workspace,
   .snake-panel,
+  .tour-controls,
   .contact-section {
     grid-template-columns: 1fr;
   }
@@ -836,6 +911,7 @@ h3 {
   .project-grid,
   .code-lab,
   .snake-panel,
+  .tour-panel,
   .contact-section {
     max-width: 350px;
   }

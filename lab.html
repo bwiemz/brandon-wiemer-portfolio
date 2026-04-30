@@ -29,14 +29,12 @@
             <p class="section-label">Interactive Lab</p>
             <h1 id="lab-title">Choose a lab</h1>
           </div>
-          <p class="lab-intro">
-            Switch between browser-native mini projects. Each lab takes over the page so the interaction has room to breathe.
-          </p>
         </div>
 
         <div class="lab-picker" aria-label="Choose a lab">
           <button class="lab-choice active" type="button" data-lab-target="code">Code Playground</button>
           <button class="lab-choice" type="button" data-lab-target="snake">Snake Game</button>
+          <button class="lab-choice" type="button" data-lab-target="tours">Landmark Tours</button>
         </div>
 
         <div class="lab-stack">
@@ -105,6 +103,31 @@
                 <button type="button" data-direction="down" aria-label="Move down">Down</button>
               </div>
             </div>
+            </div>
+          </section>
+
+          <section class="lab-view" data-lab-view="tours" aria-labelledby="tours-title">
+            <div class="lab-view-heading">
+              <p class="section-label">Aerial Simulation</p>
+              <h2 id="tours-title">Landmark Tours</h2>
+              <p>Pick a landmark and watch a small animated aerial pass rendered entirely in canvas.</p>
+            </div>
+
+            <div class="tour-panel">
+              <div class="tour-controls" aria-label="Choose a landmark tour">
+                <button class="tour-choice active" type="button" data-tour="eiffel">Eiffel Tower</button>
+                <button class="tour-choice" type="button" data-tour="pyramids">Giza Pyramids</button>
+                <button class="tour-choice" type="button" data-tour="colosseum">Colosseum</button>
+                <button class="tour-choice" type="button" data-tour="taj">Taj Mahal</button>
+              </div>
+
+              <div class="tour-stage">
+                <canvas id="tour-canvas" width="960" height="540" aria-label="Animated aerial landmark simulation"></canvas>
+                <div class="tour-caption">
+                  <p id="tour-name">Eiffel Tower</p>
+                  <span id="tour-location">Paris, France</span>
+                </div>
+              </div>
             </div>
           </section>
         </div>

@@ -12,6 +12,7 @@ const previewFrame = document.querySelector("#preview-frame");
 const outputPane = document.querySelector(".output-pane");
 const labChoices = document.querySelectorAll(".lab-choice");
 const labViews = document.querySelectorAll(".lab-view");
+const tourChoices = document.querySelectorAll(".tour-choice");
 
 const codeSamples = {
   javascript: `const projects = ["NSL", "sealstack", "SiliconScript", "codeforge"];
@@ -723,8 +724,236 @@ function initSnakeGame() {
   resetGame();
 }
 
+function initLandmarkTours() {
+  const canvas = document.querySelector("#tour-canvas");
+  if (!canvas) return;
+
+  const context = canvas.getContext("2d");
+  const tourName = document.querySelector("#tour-name");
+  const tourLocation = document.querySelector("#tour-location");
+  const landmarks = {
+    eiffel: {
+      name: "Eiffel Tower",
+      location: "Paris, France",
+      palette: ["#90b66f", "#78a75b", "#6d9b51"],
+      draw: drawEiffel
+    },
+    pyramids: {
+      name: "Giza Pyramids",
+      location: "Giza, Egypt",
+      palette: ["#d9bc76", "#caa865", "#b99251"],
+      draw: drawPyramids
+    },
+    colosseum: {
+      name: "Colosseum",
+      location: "Rome, Italy",
+      palette: ["#a9bd75", "#8aa760", "#d0b28a"],
+      draw: drawColosseum
+    },
+    taj: {
+      name: "Taj Mahal",
+      location: "Agra, India",
+      palette: ["#9fc179", "#8caf68", "#e8e3d6"],
+      draw: drawTaj
+    }
+  };
+  let activeTour = "eiffel";
+  let startTime = performance.now();
+
+  function setTour(tourId) {
+    activeTour = tourId;
+    startTime = performance.now();
+    const landmark = landmarks[tourId];
+    tourName.textContent = landmark.name;
+    tourLocation.textContent = landmark.location;
+    tourChoices.forEach((choice) => {
+      choice.classList.toggle("active", choice.dataset.tour === tourId);
+    });
+  }
+
+  tourChoices.forEach((button) => {
+    button.addEventListener("click", () => setTour(button.dataset.tour));
+  });
+
+  function project(x, y, z, camera) {
+    const rotation = camera.angle;
+    const cos = Math.cos(rotation);
+    const sin = Math.sin(rotation);
+    const rotatedX = x * cos - y * sin;
+    const rotatedY = x * sin + y * cos;
+    const depth = camera.zoom / (camera.zoom + rotatedY * 0.2 + z * 0.08);
+    return {
+      x: canvas.width / 2 + rotatedX * depth,
+      y: canvas.height / 2 + (rotatedY - z) * depth * 0.62,
+      scale: depth
+    };
+  }
+
+  function drawField(palette, camera) {
+    const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, palette[0]);
+    gradient.addColorStop(0.55, palette[1]);
+    gradient.addColorStop(1, palette[2]);
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    context.save();
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.rotate(camera.angle * 0.22);
+    for (let line = -900; line <= 900; line += 60) {
+      context.strokeStyle = "rgba(255,255,255,0.08)";
+      context.lineWidth = 1;
+      context.beginPath();
+      context.moveTo(line, -900);
+      context.lineTo(line, 900);
+      context.stroke();
+      context.beginPath();
+      context.moveTo(-900, line);
+      context.lineTo(900, line);
+      context.stroke();
+    }
+    context.restore();
+
+    context.fillStyle = "rgba(255,255,255,0.2)";
+    context.beginPath();
+    context.arc(canvas.width * 0.12, canvas.height * 0.16, 28, 0, Math.PI * 2);
+    context.fill();
+  }
+
+  function polygon(points, fill, stroke = "rgba(17,23,19,0.22)") {
+    context.fillStyle = fill;
+    context.strokeStyle = stroke;
+    context.lineWidth = 2;
+    context.beginPath();
+    points.forEach((point, index) => {
+      if (index === 0) context.moveTo(point.x, point.y);
+      else context.lineTo(point.x, point.y);
+    });
+    context.closePath();
+    context.fill();
+    context.stroke();
+  }
+
+  function drawRect(cx, cy, width, height, color, camera, z = 0) {
+    const corners = [
+      project(cx - width / 2, cy - height / 2, z, camera),
+      project(cx + width / 2, cy - height / 2, z, camera),
+      project(cx + width / 2, cy + height / 2, z, camera),
+      project(cx - width / 2, cy + height / 2, z, camera)
+    ];
+    polygon(corners, color);
+  }
+
+  function drawEiffel(camera) {
+    drawRect(0, 0, 300, 300, "rgba(60,80,58,0.22)", camera);
+    const baseLeft = project(-95, 90, 0, camera);
+    const baseRight = project(95, 90, 0, camera);
+    const midLeft = project(-45, 20, 115, camera);
+    const midRight = project(45, 20, 115, camera);
+    const top = project(0, -42, 280, camera);
+    polygon([baseLeft, midLeft, top, midRight, baseRight], "#3f342d", "#17130f");
+    polygon([project(-56, 40, 54, camera), project(56, 40, 54, camera), project(44, 56, 48, camera), project(-44, 56, 48, camera)], "#78614e");
+    context.strokeStyle = "rgba(255,255,255,0.35)";
+    context.lineWidth = 2;
+    for (let i = -3; i <= 3; i += 1) {
+      const a = project(i * 18, 68, 20, camera);
+      const b = project(i * 8, -18, 170, camera);
+      context.beginPath();
+      context.moveTo(a.x, a.y);
+      context.lineTo(b.x, b.y);
+      context.stroke();
+    }
+  }
+
+  function drawPyramids(camera) {
+    [[-115, 50, 180], [85, 35, 145], [-10, -100, 92]].forEach(([x, y, size]) => {
+      const bottomLeft = project(x - size / 2, y + size / 3, 0, camera);
+      const bottomRight = project(x + size / 2, y + size / 3, 0, camera);
+      const back = project(x, y - size / 2, 0, camera);
+      const peak = project(x, y, size * 0.72, camera);
+      polygon([bottomLeft, peak, back], "#d5b16b");
+      polygon([back, peak, bottomRight], "#b88642");
+      polygon([bottomRight, peak, bottomLeft], "#c99b4e");
+    });
+  }
+
+  function drawColosseum(camera) {
+    drawRect(0, 0, 330, 245, "rgba(98,77,51,0.16)", camera);
+    for (let ring = 0; ring < 4; ring += 1) {
+      context.strokeStyle = ring % 2 === 0 ? "#b99170" : "#dfc29f";
+      context.lineWidth = 14 - ring * 2;
+      context.beginPath();
+      const center = project(0, 0, ring * 4, camera);
+      context.ellipse(center.x, center.y, 150 - ring * 24, 92 - ring * 15, camera.angle * 0.2, 0, Math.PI * 2);
+      context.stroke();
+    }
+    context.strokeStyle = "rgba(75,48,34,0.7)";
+    context.lineWidth = 3;
+    for (let i = 0; i < 18; i += 1) {
+      const angle = (Math.PI * 2 * i) / 18;
+      const a = project(Math.cos(angle) * 88, Math.sin(angle) * 50, 18, camera);
+      const b = project(Math.cos(angle) * 139, Math.sin(angle) * 82, 18, camera);
+      context.beginPath();
+      context.moveTo(a.x, a.y);
+      context.lineTo(b.x, b.y);
+      context.stroke();
+    }
+  }
+
+  function drawTaj(camera) {
+    drawRect(0, 22, 300, 210, "rgba(24,86,67,0.18)", camera);
+    drawRect(0, 30, 170, 95, "#efece2", camera, 16);
+    const dome = project(0, -20, 88, camera);
+    context.fillStyle = "#f7f3ea";
+    context.strokeStyle = "#cfc7b8";
+    context.lineWidth = 2;
+    context.beginPath();
+    context.arc(dome.x, dome.y, 42 * dome.scale, Math.PI, 0);
+    context.lineTo(dome.x + 42 * dome.scale, dome.y + 38 * dome.scale);
+    context.lineTo(dome.x - 42 * dome.scale, dome.y + 38 * dome.scale);
+    context.closePath();
+    context.fill();
+    context.stroke();
+    [-135, -82, 82, 135].forEach((x) => {
+      const base = project(x, 45, 0, camera);
+      const top = project(x, 30, 96, camera);
+      context.strokeStyle = "#f5f1e8";
+      context.lineWidth = 11 * top.scale;
+      context.beginPath();
+      context.moveTo(base.x, base.y);
+      context.lineTo(top.x, top.y);
+      context.stroke();
+    });
+  }
+
+  function animate(now) {
+    const landmark = landmarks[activeTour];
+    const elapsed = (now - startTime) / 1000;
+    const camera = {
+      angle: elapsed * 0.32,
+      zoom: 620 + Math.sin(elapsed * 0.7) * 70
+    };
+
+    drawField(landmark.palette, camera);
+    context.fillStyle = "rgba(17,23,19,0.34)";
+    context.beginPath();
+    context.ellipse(canvas.width / 2, canvas.height * 0.68, 190, 36, 0, 0, Math.PI * 2);
+    context.fill();
+    landmark.draw(camera);
+
+    window.requestAnimationFrame(animate);
+  }
+
+  setTour(activeTour);
+  window.requestAnimationFrame(animate);
+}
+
 setLanguage(activeLanguage);
 if (window.location.hash === "#snake") {
   selectLab("snake");
 }
+if (window.location.hash === "#tours") {
+  selectLab("tours");
+}
 initSnakeGame();
+initLandmarkTours();
