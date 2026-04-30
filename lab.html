@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Interactive code lab and Snake game for Brandon Wiemer's portfolio.">
+    <title>Lab | Brandon Wiemer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <a class="brand" href="index.html" aria-label="Brandon Wiemer home">
+        <span class="brand-mark">BW</span>
+        <span>Brandon Wiemer</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="work.html">Work</a>
+        <a href="lab.html" aria-current="page">Lab</a>
+        <a href="projects.html">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section lab-section" id="lab" aria-labelledby="lab-title">
+        <div class="section-heading lab-heading">
+          <div>
+            <p class="section-label">Interactive Lab</p>
+            <h1 id="lab-title">Run a small program</h1>
+          </div>
+          <p class="lab-intro">
+            A browser-based playground with JavaScript, Python Lite, NSL Lite, and HTML/CSS preview modes.
+          </p>
+        </div>
+
+        <div class="lab-stack">
+          <div class="code-lab" aria-label="Interactive code playground">
+            <div class="lab-toolbar">
+              <div class="language-tabs" role="tablist" aria-label="Choose code language">
+                <button class="language-tab active" type="button" data-language="javascript">JavaScript</button>
+                <button class="language-tab" type="button" data-language="python">Python Lite</button>
+                <button class="language-tab" type="button" data-language="nsl">NSL Lite</button>
+                <button class="language-tab" type="button" data-language="htmlcss">HTML/CSS</button>
+              </div>
+              <div class="lab-actions">
+                <button class="icon-button" type="button" id="reset-code" aria-label="Reset code">Reset</button>
+                <button class="icon-button run" type="button" id="run-code" aria-label="Run code">Run</button>
+              </div>
+            </div>
+
+            <div class="lab-workspace">
+              <label class="editor-pane">
+                <span>main.<span id="file-extension">js</span></span>
+                <textarea id="code-editor" spellcheck="false" aria-label="Code editor"></textarea>
+              </label>
+
+              <div class="output-pane" aria-live="polite">
+                <div class="output-header">
+                  <span id="output-title">Console</span>
+                  <span id="runtime-label">JavaScript worker</span>
+                </div>
+                <pre id="code-output">Press Run to execute the sample.</pre>
+                <iframe id="preview-frame" title="HTML and CSS preview"></iframe>
+              </div>
+            </div>
+          </div>
+
+          <section class="snake-panel" aria-labelledby="snake-title">
+            <div class="snake-copy">
+              <p class="section-label">Mini Game</p>
+              <h2 id="snake-title">Snake</h2>
+              <p>Use arrow keys or WASD. On touch screens, use the direction buttons.</p>
+              <div class="snake-stats">
+                <span>Score <strong id="snake-score">0</strong></span>
+                <span>Best <strong id="snake-best">0</strong></span>
+              </div>
+              <button class="button primary" type="button" id="snake-start">Start game</button>
+            </div>
+
+            <div class="snake-stage">
+              <canvas id="snake-board" width="360" height="360" aria-label="Snake game board"></canvas>
+              <div class="snake-controls" aria-label="Snake direction controls">
+                <button type="button" data-direction="up" aria-label="Move up">Up</button>
+                <button type="button" data-direction="left" aria-label="Move left">Left</button>
+                <button type="button" data-direction="right" aria-label="Move right">Right</button>
+                <button type="button" data-direction="down" aria-label="Move down">Down</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

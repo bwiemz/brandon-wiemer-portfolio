@@ -93,7 +93,8 @@ a {
 }
 
 .nav-links a:hover,
-.nav-links a:focus-visible {
+.nav-links a:focus-visible,
+.nav-links a[aria-current="page"] {
   background: rgba(15, 118, 110, 0.09);
   color: var(--accent-dark);
   outline: none;
@@ -114,6 +115,20 @@ a {
   min-height: calc(100vh - 76px);
   padding-bottom: 56px;
   padding-top: 56px;
+}
+
+.page-hero {
+  padding-bottom: 30px;
+}
+
+.page-hero h1,
+.projects-section h1,
+.lab-section h1,
+.standalone-contact h1 {
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  line-height: 0.95;
+  margin-bottom: 24px;
+  max-width: 760px;
 }
 
 .availability,
@@ -403,7 +418,7 @@ h3 {
 }
 
 .lab-section {
-  padding-top: 38px;
+  padding-top: 72px;
 }
 
 .lab-heading {
@@ -414,6 +429,11 @@ h3 {
   color: var(--muted);
   margin: 0;
   max-width: 430px;
+}
+
+.lab-stack {
+  display: grid;
+  gap: 24px;
 }
 
 .code-lab {
@@ -436,7 +456,9 @@ h3 {
 
 .language-tabs,
 .lab-actions {
+  align-items: center;
   display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 
@@ -473,7 +495,7 @@ h3 {
 .lab-workspace {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-  min-height: 440px;
+  min-height: 500px;
 }
 
 .editor-pane,
@@ -525,6 +547,7 @@ h3 {
 
 #code-output {
   color: #bfe8d8;
+  display: block;
 }
 
 .output-pane {
@@ -532,6 +555,111 @@ h3 {
     linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     #0b100d;
   background-size: 100% 32px;
+}
+
+#preview-frame {
+  background: white;
+  border: 0;
+  display: none;
+  flex: 1;
+  min-height: 420px;
+  width: 100%;
+}
+
+.output-pane.preview-mode {
+  background: #f6f1e8;
+}
+
+.output-pane.preview-mode #code-output {
+  display: none;
+}
+
+.output-pane.preview-mode #preview-frame {
+  display: block;
+}
+
+.snake-panel {
+  align-items: center;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: grid;
+  gap: 28px;
+  grid-template-columns: minmax(0, 0.78fr) minmax(320px, 1fr);
+  padding: 28px;
+}
+
+.snake-copy p:not(.section-label) {
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.snake-stats {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.snake-stats span {
+  background: var(--accent-soft);
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  border-radius: var(--radius);
+  color: var(--accent-dark);
+  font-size: 0.82rem;
+  font-weight: 900;
+  padding: 9px 12px;
+  text-transform: uppercase;
+}
+
+.snake-stage {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+#snake-board {
+  aspect-ratio: 1;
+  background: #0b100d;
+  border: 10px solid #18211d;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 20px 50px rgba(23, 32, 28, 0.18);
+  display: block;
+  max-width: 100%;
+  width: min(360px, 100%);
+}
+
+.snake-controls {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, 64px);
+  justify-content: center;
+}
+
+.snake-controls button {
+  background: var(--ink);
+  border: 0;
+  border-radius: 6px;
+  color: var(--surface);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  min-height: 42px;
+}
+
+.snake-controls button[data-direction="up"],
+.snake-controls button[data-direction="down"] {
+  grid-column: 2;
+}
+
+.snake-controls button[data-direction="left"] {
+  grid-column: 1;
+}
+
+.snake-controls button[data-direction="right"] {
+  grid-column: 3;
+  grid-row: 2;
 }
 
 .contact-section {
@@ -550,7 +678,7 @@ h3 {
   align-items: center;
   border-top: 1px solid var(--line);
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin: 0 auto;
   max-width: var(--max);
   padding: 26px 22px 38px;
@@ -579,6 +707,7 @@ h3 {
   .hero,
   .section-grid,
   .lab-workspace,
+  .snake-panel,
   .contact-section {
     grid-template-columns: 1fr;
   }
@@ -647,6 +776,7 @@ h3 {
   .focus-list,
   .project-grid,
   .code-lab,
+  .snake-panel,
   .contact-section {
     max-width: 350px;
   }
@@ -683,6 +813,10 @@ h3 {
 
   .lab-workspace {
     min-height: 640px;
+  }
+
+  .snake-panel {
+    padding: 20px;
   }
 
   .project-filters {

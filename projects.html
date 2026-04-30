@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Selected public GitHub projects from Brandon Wiemer.">
+    <title>Projects | Brandon Wiemer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <a class="brand" href="index.html" aria-label="Brandon Wiemer home">
+        <span class="brand-mark">BW</span>
+        <span>Brandon Wiemer</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="work.html">Work</a>
+        <a href="lab.html">Lab</a>
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="section projects-section" aria-labelledby="projects-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-label">Selected GitHub Work</p>
+            <h1 id="projects-title">Recent public projects</h1>
+          </div>
+          <div class="project-filters" aria-label="Filter projects">
+            <button class="filter-button active" type="button" data-filter="all">All</button>
+            <button class="filter-button" type="button" data-filter="Rust">Rust</button>
+            <button class="filter-button" type="button" data-filter="Python">Python</button>
+            <button class="filter-button" type="button" data-filter="C++">C++</button>
+          </div>
+        </div>
+
+        <div class="project-grid" id="project-grid">
+          <article class="project-card feature" data-language="Rust">
+            <div class="project-topline">
+              <span>Rust</span>
+              <span>Compiler</span>
+            </div>
+            <h3>NSL</h3>
+            <p>A statically typed, compiled programming language designed as a first-class replacement for Python and PyTorch in AI/ML workloads.</p>
+            <a href="https://github.com/bwiemz/NSL" target="_blank" rel="noreferrer">View repository</a>
+          </article>
+
+          <article class="project-card" data-language="Rust">
+            <div class="project-topline">
+              <span>Rust</span>
+              <span>MCP</span>
+            </div>
+            <h3>sealstack</h3>
+            <p>An open-source, enterprise-grade context operating system built around MCP-native workflows and a Rust-backed core.</p>
+            <a href="https://github.com/bwiemz/sealstack" target="_blank" rel="noreferrer">View repository</a>
+          </article>
+
+          <article class="project-card" data-language="C++">
+            <div class="project-topline">
+              <span>C++</span>
+              <span>Engine</span>
+            </div>
+            <h3>supcom-engine</h3>
+            <p>A C++ engine project with active development, useful as a signal of lower-level architecture and performance work.</p>
+            <a href="https://github.com/bwiemz/supcom-engine" target="_blank" rel="noreferrer">View repository</a>
+          </article>
+
+          <article class="project-card" data-language="Rust">
+            <div class="project-topline">
+              <span>Rust</span>
+              <span>Hardware</span>
+            </div>
+            <h3>SiliconScript</h3>
+            <p>A modern, statically typed hardware description language aimed at replacing Verilog and VHDL.</p>
+            <a href="https://github.com/bwiemz/SiliconScript" target="_blank" rel="noreferrer">View repository</a>
+          </article>
+
+          <article class="project-card" data-language="Python">
+            <div class="project-topline">
+              <span>Python</span>
+              <span>AI</span>
+            </div>
+            <h3>codeforge</h3>
+            <p>A coding-focused LLM project built from scratch with PyTorch and TCFP tensor core floating point work.</p>
+            <a href="https://github.com/bwiemz/codeforge" target="_blank" rel="noreferrer">View repository</a>
+          </article>
+
+          <article class="project-card" data-language="Python">
+            <div class="project-topline">
+              <span>Python</span>
+              <span>Research</span>
+            </div>
+            <h3>sentinel</h3>
+            <p>An educational and research-oriented multi-sensor tracking and targeting system.</p>
+            <a href="https://github.com/bwiemz/sentinel" target="_blank" rel="noreferrer">View repository</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="#top">Back to top</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
