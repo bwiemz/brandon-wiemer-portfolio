@@ -226,13 +226,15 @@ h3 {
 
 .avatar {
   aspect-ratio: 1;
+  background: #020202;
   border: 5px solid rgba(255, 250, 240, 0.88);
   border-radius: var(--radius);
   box-shadow: 0 18px 45px rgba(23, 32, 28, 0.18);
   display: block;
   margin-bottom: 22px;
   object-fit: cover;
-  width: min(100%, 260px);
+  object-position: center;
+  width: min(100%, 300px);
 }
 
 .profile-name {
