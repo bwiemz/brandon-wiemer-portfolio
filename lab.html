@@ -108,9 +108,8 @@
 
           <section class="lab-view" data-lab-view="tours" aria-labelledby="tours-title">
             <div class="lab-view-heading">
-              <p class="section-label">Aerial Simulation</p>
+              <p class="section-label">Photo Tour</p>
               <h2 id="tours-title">Landmark Tours</h2>
-              <p>Pick a landmark and watch a small animated aerial pass rendered entirely in canvas.</p>
             </div>
 
             <div class="tour-panel">
@@ -122,12 +121,18 @@
               </div>
 
               <div class="tour-stage">
-                <canvas id="tour-canvas" width="960" height="540" aria-label="Animated aerial landmark simulation"></canvas>
+                <img id="tour-image" src="assets/landmarks/eiffel.jpg" alt="Historic aerial photograph of the Eiffel Tower grounds" />
+                <div class="tour-reticle" aria-hidden="true"></div>
                 <div class="tour-caption">
+                  <span id="tour-kind">Historic aerial photograph</span>
                   <p id="tour-name">Eiffel Tower</p>
                   <span id="tour-location">Paris, France</span>
                 </div>
               </div>
+              <p class="tour-credit">
+                <span id="tour-credit">Image: Alphonse Liebert, public domain.</span>
+                <a id="tour-source" href="https://commons.wikimedia.org/wiki/File:Aerial_view_of_Eiffel_Tower_and_Exposition_Universelle,_Paris,_1889.jpg" target="_blank" rel="noreferrer">Source</a>
+              </p>
             </div>
           </section>
         </div>

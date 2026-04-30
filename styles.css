@@ -757,17 +757,79 @@ h3 {
 }
 
 .tour-stage {
-  background: #d8eec7;
+  aspect-ratio: 16 / 9;
+  background: #111713;
   border: 10px solid #18211d;
   border-radius: var(--radius);
   overflow: hidden;
   position: relative;
 }
 
-#tour-canvas {
-  aspect-ratio: 16 / 9;
+#tour-image {
   display: block;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  transform-origin: center;
   width: 100%;
+}
+
+.tour-stage.is-flying #tour-image {
+  animation: aerial-photo-pass 14s ease-in-out infinite alternate;
+}
+
+.tour-stage::before {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 80px 80px;
+  content: "";
+  inset: 0;
+  opacity: 0.22;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.tour-stage::after {
+  background: radial-gradient(circle at center, transparent 46%, rgba(0, 0, 0, 0.38));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.tour-reticle {
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  height: 34%;
+  left: 50%;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 34%;
+  z-index: 2;
+}
+
+.tour-reticle::before,
+.tour-reticle::after {
+  background: rgba(255, 255, 255, 0.55);
+  content: "";
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.tour-reticle::before {
+  height: 1px;
+  width: 54px;
+}
+
+.tour-reticle::after {
+  height: 54px;
+  width: 1px;
 }
 
 .tour-caption {
@@ -779,6 +841,17 @@ h3 {
   left: 16px;
   padding: 12px 14px;
   position: absolute;
+  z-index: 3;
+}
+
+.tour-caption > span:first-child {
+  color: rgba(255, 250, 240, 0.68);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  margin-bottom: 4px;
+  text-transform: uppercase;
 }
 
 .tour-caption p {
@@ -790,6 +863,35 @@ h3 {
 .tour-caption span {
   color: rgba(255, 250, 240, 0.76);
   font-size: 0.86rem;
+}
+
+.tour-credit {
+  align-items: center;
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  gap: 8px;
+  margin: -4px 2px 0;
+}
+
+.tour-credit a {
+  color: var(--accent-dark);
+  font-weight: 900;
+}
+
+@keyframes aerial-photo-pass {
+  0% {
+    transform: scale(1.08) translate3d(-2.5%, -1.5%, 0);
+  }
+
+  45% {
+    transform: scale(1.18) translate3d(2%, 1%, 0);
+  }
+
+  100% {
+    transform: scale(1.12) translate3d(-1%, 2%, 0);
+  }
 }
 
 .contact-section {
