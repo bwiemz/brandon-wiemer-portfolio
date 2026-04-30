@@ -10,6 +10,8 @@ const runtimeLabel = document.querySelector("#runtime-label");
 const outputTitle = document.querySelector("#output-title");
 const previewFrame = document.querySelector("#preview-frame");
 const outputPane = document.querySelector(".output-pane");
+const labChoices = document.querySelectorAll(".lab-choice");
+const labViews = document.querySelectorAll(".lab-view");
 
 const codeSamples = {
   javascript: `const projects = ["NSL", "sealstack", "SiliconScript", "codeforge"];
@@ -82,6 +84,23 @@ filterButtons.forEach((button) => {
       const shouldShow = selectedFilter === "all" || card.dataset.language === selectedFilter;
       card.classList.toggle("is-hidden", !shouldShow);
     });
+  });
+});
+
+function selectLab(selectedLab) {
+  labChoices.forEach((choice) => {
+    choice.classList.toggle("active", choice.dataset.labTarget === selectedLab);
+  });
+
+  labViews.forEach((view) => {
+    view.classList.toggle("active", view.dataset.labView === selectedLab);
+  });
+}
+
+labChoices.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectLab(button.dataset.labTarget);
+    window.history.replaceState(null, "", `#${button.dataset.labTarget}`);
   });
 });
 
@@ -511,27 +530,125 @@ function initSnakeGame() {
 
   function drawCell(x, y, color) {
     context.fillStyle = color;
-    context.fillRect(x * cell + 2, y * cell + 2, cell - 4, cell - 4);
+    context.fillRect(x * cell, y * cell, cell, cell);
+  }
+
+  function drawGrass() {
+    const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, "#8fbd5f");
+    gradient.addColorStop(0.52, "#6fa248");
+    gradient.addColorStop(1, "#4f7d35");
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (let y = 0; y < cells; y += 1) {
+      for (let x = 0; x < cells; x += 1) {
+        context.fillStyle = (x + y) % 2 === 0 ? "rgba(255,255,255,0.045)" : "rgba(20,70,24,0.05)";
+        context.fillRect(x * cell, y * cell, cell, cell);
+      }
+    }
+
+    context.strokeStyle = "rgba(24, 68, 31, 0.18)";
+    context.lineWidth = 1;
+    for (let blade = 0; blade < 90; blade += 1) {
+      const x = (blade * 47) % canvas.width;
+      const y = (blade * 83) % canvas.height;
+      context.beginPath();
+      context.moveTo(x, y + 6);
+      context.quadraticCurveTo(x + 4, y, x + 9, y + 5);
+      context.stroke();
+    }
+  }
+
+  function drawApple() {
+    const centerX = food.x * cell + cell / 2;
+    const centerY = food.y * cell + cell / 2;
+    const appleGradient = context.createRadialGradient(centerX - 4, centerY - 5, 2, centerX, centerY, 10);
+    appleGradient.addColorStop(0, "#ffb3a8");
+    appleGradient.addColorStop(0.5, "#d83b2d");
+    appleGradient.addColorStop(1, "#8d1f17");
+
+    context.fillStyle = appleGradient;
+    context.beginPath();
+    context.arc(centerX - 3, centerY, 7, 0, Math.PI * 2);
+    context.arc(centerX + 3, centerY, 7, 0, Math.PI * 2);
+    context.fill();
+
+    context.fillStyle = "#5f3b1f";
+    context.fillRect(centerX - 1, centerY - 13, 3, 8);
+
+    context.fillStyle = "#2f8f3a";
+    context.beginPath();
+    context.ellipse(centerX + 6, centerY - 12, 5, 3, -0.55, 0, Math.PI * 2);
+    context.fill();
+  }
+
+  function drawSnakeSegment(part, index) {
+    const centerX = part.x * cell + cell / 2;
+    const centerY = part.y * cell + cell / 2;
+    const isHead = index === 0;
+    const radius = isHead ? 9 : Math.max(6.5, 8.5 - index * 0.12);
+    const segmentGradient = context.createRadialGradient(centerX - 4, centerY - 4, 2, centerX, centerY, radius + 2);
+    segmentGradient.addColorStop(0, isHead ? "#7ef7a9" : "#5be28f");
+    segmentGradient.addColorStop(1, isHead ? "#146b35" : "#0f5c31");
+
+    context.fillStyle = segmentGradient;
+    context.beginPath();
+    context.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    context.fill();
+
+    context.fillStyle = "rgba(255,255,255,0.22)";
+    context.beginPath();
+    context.arc(centerX - 3, centerY - 4, 2, 0, Math.PI * 2);
+    context.fill();
+  }
+
+  function drawSnakeHead() {
+    const head = snake[0];
+    const centerX = head.x * cell + cell / 2;
+    const centerY = head.y * cell + cell / 2;
+    const eyeOffsetX = direction.y !== 0 ? 4 : direction.x * 3;
+    const eyeOffsetY = direction.x !== 0 ? 4 : direction.y * 3;
+    const forwardX = direction.x * 10;
+    const forwardY = direction.y * 10;
+    const sideX = direction.y * 4;
+    const sideY = -direction.x * 4;
+
+    context.fillStyle = "#f7f7ec";
+    context.beginPath();
+    context.arc(centerX + eyeOffsetX + sideX * 0.55, centerY + eyeOffsetY + sideY * 0.55, 2.7, 0, Math.PI * 2);
+    context.arc(centerX + eyeOffsetX - sideX * 0.55, centerY + eyeOffsetY - sideY * 0.55, 2.7, 0, Math.PI * 2);
+    context.fill();
+
+    context.fillStyle = "#111713";
+    context.beginPath();
+    context.arc(centerX + eyeOffsetX + sideX * 0.55, centerY + eyeOffsetY + sideY * 0.55, 1.2, 0, Math.PI * 2);
+    context.arc(centerX + eyeOffsetX - sideX * 0.55, centerY + eyeOffsetY - sideY * 0.55, 1.2, 0, Math.PI * 2);
+    context.fill();
+
+    context.strokeStyle = "#d83b2d";
+    context.lineWidth = 2;
+    context.lineCap = "round";
+    context.beginPath();
+    context.moveTo(centerX + forwardX * 0.65, centerY + forwardY * 0.65);
+    context.lineTo(centerX + forwardX * 1.08, centerY + forwardY * 1.08);
+    context.stroke();
+    context.beginPath();
+    context.moveTo(centerX + forwardX * 1.08, centerY + forwardY * 1.08);
+    context.lineTo(centerX + forwardX * 1.18 + sideX * 0.65, centerY + forwardY * 1.18 + sideY * 0.65);
+    context.moveTo(centerX + forwardX * 1.08, centerY + forwardY * 1.08);
+    context.lineTo(centerX + forwardX * 1.18 - sideX * 0.65, centerY + forwardY * 1.18 - sideY * 0.65);
+    context.stroke();
   }
 
   function draw() {
-    context.fillStyle = "#0b100d";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    context.strokeStyle = "rgba(255,255,255,0.04)";
-    for (let position = 0; position <= canvas.width; position += cell) {
-      context.beginPath();
-      context.moveTo(position, 0);
-      context.lineTo(position, canvas.height);
-      context.stroke();
-      context.beginPath();
-      context.moveTo(0, position);
-      context.lineTo(canvas.width, position);
-      context.stroke();
-    }
-
-    drawCell(food.x, food.y, "#c7932e");
-    snake.forEach((part, index) => drawCell(part.x, part.y, index === 0 ? "#2dd4bf" : "#0f766e"));
+    drawGrass();
+    drawApple();
+    snake.slice().reverse().forEach((part, reverseIndex) => {
+      const index = snake.length - 1 - reverseIndex;
+      drawSnakeSegment(part, index);
+    });
+    drawSnakeHead();
   }
 
   function endGame() {
@@ -607,4 +724,7 @@ function initSnakeGame() {
 }
 
 setLanguage(activeLanguage);
+if (window.location.hash === "#snake") {
+  selectLab("snake");
+}
 initSnakeGame();

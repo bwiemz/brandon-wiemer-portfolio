@@ -27,15 +27,27 @@
         <div class="section-heading lab-heading">
           <div>
             <p class="section-label">Interactive Lab</p>
-            <h1 id="lab-title">Run a small program</h1>
+            <h1 id="lab-title">Choose a lab</h1>
           </div>
           <p class="lab-intro">
-            A browser-based playground with JavaScript, Python Lite, NSL Lite, and HTML/CSS preview modes.
+            Switch between browser-native mini projects. Each lab takes over the page so the interaction has room to breathe.
           </p>
         </div>
 
+        <div class="lab-picker" aria-label="Choose a lab">
+          <button class="lab-choice active" type="button" data-lab-target="code">Code Playground</button>
+          <button class="lab-choice" type="button" data-lab-target="snake">Snake Game</button>
+        </div>
+
         <div class="lab-stack">
-          <div class="code-lab" aria-label="Interactive code playground">
+          <section class="lab-view active" data-lab-view="code" aria-labelledby="code-lab-title">
+            <div class="lab-view-heading">
+              <p class="section-label">Code Playground</p>
+              <h2 id="code-lab-title">Run small programs</h2>
+              <p>Use JavaScript, Python Lite, NSL Lite, or a live HTML/CSS preview in the browser.</p>
+            </div>
+
+            <div class="code-lab" aria-label="Interactive code playground">
             <div class="lab-toolbar">
               <div class="language-tabs" role="tablist" aria-label="Choose code language">
                 <button class="language-tab active" type="button" data-language="javascript">JavaScript</button>
@@ -64,12 +76,18 @@
                 <iframe id="preview-frame" title="HTML and CSS preview"></iframe>
               </div>
             </div>
-          </div>
+            </div>
+          </section>
 
-          <section class="snake-panel" aria-labelledby="snake-title">
-            <div class="snake-copy">
+          <section class="lab-view" data-lab-view="snake" aria-labelledby="snake-title">
+            <div class="lab-view-heading">
               <p class="section-label">Mini Game</p>
               <h2 id="snake-title">Snake</h2>
+              <p>Guide the snake through the field, eat apples, and avoid the walls and yourself.</p>
+            </div>
+
+            <div class="snake-panel">
+            <div class="snake-copy">
               <p>Use arrow keys or WASD. On touch screens, use the direction buttons.</p>
               <div class="snake-stats">
                 <span>Score <strong id="snake-score">0</strong></span>
@@ -86,6 +104,7 @@
                 <button type="button" data-direction="right" aria-label="Move right">Right</button>
                 <button type="button" data-direction="down" aria-label="Move down">Down</button>
               </div>
+            </div>
             </div>
           </section>
         </div>
